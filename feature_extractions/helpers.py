@@ -1,16 +1,15 @@
 import pathlib
 
-from source import utils
+import utils
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 import numpy as np
 import os.path
 import pandas as pd
-from source.Embedding import word2vec as w2v
+from Embedding import word2vec as w2v
 
 SOURCE = os.path.abspath(os.path.join(__file__, '../../'))
-
 
 
 def get_tf_vectorizer_data(posts):
@@ -58,8 +57,8 @@ def get_meaningful_words_tf_idf_difference(df):
 
 
 def get_distance_df(df, column_name, sentence, distance_type='euclidean'):
-    df_offensive_distance = pd.DataFrame(columns=['id', column_name])
-    df_offensive_distance['id'] = df['id'].tolist()
+    df_offensive_distance = pd.DataFrame(columns=['writer', column_name])
+    df_offensive_distance['writer'] = df['writer'].tolist()
 
     m_wiki = w2v.get_model(SOURCE + "/Embedding/wiki.he.word2vec.model")
     m_our = w2v.get_model(SOURCE + "/Embedding/our.corpus.word2vec.model")

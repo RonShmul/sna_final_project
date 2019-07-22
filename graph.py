@@ -1,17 +1,8 @@
-import featureExtraction as fe
+from feature_extractions import nlp_feature_extractions as fe
 import csv
 import networkx as nx
 import pandas as pd
 
-
-def concat_posts_per_user(df):
-    """
-
-    :param df:
-    :return:
-    """
-    df = df.groupby('writer').agg({'text':' '.join})
-    return df
 
 def get_topics(df, threshold, num_of_topics):
     """
@@ -58,18 +49,3 @@ def create_graph(csv_file):
     graph = nx.to_undirected(graph_temp)
     graph_new = nx.Graph(graph)
     return graph_new
-
-
-def preprocess(graph, threshold):
-    """
-
-    :param graph:
-    :param threshold:
-    :return:
-    """
-    remove = [edge for edge in graph.edges().items() if edge[1]['Weight'] < threshold]
-    remove_list = [remove[i][0] for i in range(len(remove))]
-    graph.remove_edges_from(remove_list)
-    isolated = list(nx.isolates(graph))  # isolate and remove the unconnected nodes
-    graph.remove_nodes_from(isolated)
-    return graph
