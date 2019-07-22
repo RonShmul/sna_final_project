@@ -20,9 +20,12 @@ if path_object.exists():
     shutil.rmtree(SOURCE / 'outputs')
 os.makedirs(SOURCE / 'outputs')
 
-# create network TODO
+# create network
 print("create network")
-
+topics = graph.get_topics(tagged_df, 0.7, 5)
+network_file_name = SOURCE / 'outputs/bullies_network.csv'
+graph.create_csv_network(network_file_name, topics)
+network_graph = graph.create_graph(network_file_name)
 
 # pre process data
 print("pre processing...")
