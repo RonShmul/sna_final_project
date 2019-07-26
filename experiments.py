@@ -10,6 +10,9 @@ import XGBoost
 import pathlib
 import os
 import shutil
+import networkx as nx
+import matplotlib.pyplot as plt
+
 SOURCE = pathlib.Path(__file__).parent
 
 # prepare the data and folders
@@ -31,7 +34,8 @@ network_graph = graph.create_graph(network_file_name)
 print("pre processing...")
 tagged_df = preprocessing.preprocess_text(tagged_df)
 
-# pre process network TODO
+# pre process network
+preprocessing.preprocess_graph(network_graph, 0.2)  # TODO determined threshold
 
 # extract nlp features
 print("extract feature...")

@@ -37,7 +37,7 @@ def create_csv_network(file_name, topics_dict):
             for i, writer_1 in enumerate(writers_list):
                 for j in range(i+1, len(writers_list)):
                     writer_2 = writers_list[j]
-                    writer.writerow([writer_1[0], writer_2[0], writer_1[1]-writer_2[1]])
+                    writer.writerow([writer_1[0], writer_2[0], abs(writer_1[1]-writer_2[1])])
 
 
 def create_graph(csv_file):
