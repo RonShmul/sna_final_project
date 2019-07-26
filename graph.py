@@ -30,7 +30,7 @@ def create_csv_network(file_name, topics_dict):
     :param topics_dict:
     :return:
     """
-    with open(file_name, 'w') as file:
+    with open(file_name, 'w', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(['Node A', 'Node B', 'Weight'])
         for topic, writers_list in topics_dict.items():
