@@ -25,7 +25,7 @@ os.makedirs(SOURCE / 'outputs')
 
 # create network
 print("create network")
-topics = graph.get_topics(tagged_df, 0.7, 5)
+topics = graph.get_topics(tagged_df, 0.09, 5)
 network_file_name = SOURCE / 'outputs/bullies_network.csv'
 graph.create_csv_network(network_file_name, topics)
 network_graph = graph.create_graph(network_file_name)
@@ -35,7 +35,7 @@ print("pre processing...")
 tagged_df = preprocessing.preprocess_text(tagged_df)
 
 # pre process network
-preprocessing.preprocess_graph(network_graph, 0.2)  # TODO determined threshold
+network_graph = preprocessing.preprocess_graph(network_graph, 0.2)  # TODO determined threshold
 
 # extract nlp features
 print("extract feature...")
