@@ -29,6 +29,8 @@ topics = graph.get_topics(tagged_df, 0.09, 5)
 network_file_name = SOURCE / 'outputs/bullies_network.csv'
 graph.create_csv_network(network_file_name, topics)
 network_graph = graph.create_graph(network_file_name)
+#nx.draw(network_graph, with_labels=True)
+#print(nx.info(network_graph))
 
 # pre process data
 print("pre processing...")
