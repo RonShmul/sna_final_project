@@ -23,20 +23,22 @@ if path_object.exists():
     shutil.rmtree(SOURCE / 'outputs')
 os.makedirs(SOURCE / 'outputs')
 
-# create network
+# pre process data
+print("pre processing data...")
+tagged_df = preprocessing.preprocess_text(tagged_df)
+
+# create network with topics
 print("create network")
 topics = graph.get_topics(tagged_df, 0.09, 5)
 network_file_name = SOURCE / 'outputs/bullies_network.csv'
-graph.create_csv_network(network_file_name, topics)
+graph.create_csv_network_from_topics(network_file_name, topics)
 network_graph = graph.create_graph(network_file_name)
-#nx.draw(network_graph, with_labels=True)
-#print(nx.info(network_graph))
+# nx.draw(network_graph, with_labels=True)
+# print(nx.info(network_graph))
 
-# pre process data
-print("pre processing...")
-tagged_df = preprocessing.preprocess_text(tagged_df)
 
 # pre process network
+print("pre processing network...")
 network_graph = preprocessing.preprocess_graph(network_graph, 0.2)  # TODO determined threshold
 
 # extract nlp features

@@ -2,6 +2,11 @@ from feature_extractions import nlp_feature_extractions as fe
 import csv
 import networkx as nx
 import pandas as pd
+import Embedding.word2vec as word2vec
+import pathlib
+import utils
+
+SOURCE = pathlib.Path(__file__).parent
 
 
 def get_topics(df, threshold, num_of_topics):
@@ -24,20 +29,39 @@ def get_topics(df, threshold, num_of_topics):
     return topics
 
 
-def create_csv_network(file_name, topics_dict):
+def create_csv_network_from_topics(file_name, topics_dict):
     """
 
     :param topics_dict:
     :return:
     """
     with open(file_name, 'w', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Node A', 'Node B', 'Weight'])
+        csv_writer = csv.writer(file)
+        csv_writer.writerow(['Node A', 'Node B', 'Weight'])
         for topic, writers_list in topics_dict.items():
             for i, writer_1 in enumerate(writers_list):
                 for j in range(i+1, len(writers_list)):
                     writer_2 = writers_list[j]
-                    writer.writerow([writer_1[0], writer_2[0], abs(writer_1[1]-writer_2[1])])
+                    csv_writer.writerow([writer_1[0], writer_2[0], abs(writer_1[1]-writer_2[1])])
+
+
+def create_csv_network_with_word2vec(file_name, users_df):
+    with open(file_name, 'w') as file:
+        csv_writer = csv.writer(file)
+        word2vec_our_model = word2vec.get_model(str(SOURCE / 'Embedding/our.corpus.word2vec.model'))
+        word2vec_wiki_model = word2vec.get_model(str(SOURCE / 'Embedding/wiki.he.word2vec.model'))
+        csv_writer.writerow(['Node A', 'Node B', 'Weight'])
+        writers_list = users_df['writer'].tolist()
+        for i, writer_1 in enumerate(writers_list):
+            for j in range(i+1, len(writers_list)):
+                writer_2 = writers_list[j]
+                writer_1_vector = word2vec.get_post_vector(word2vec_our_model, word2vec_wiki_model,
+                                                           users_df.loc[users_df['writer'] == writer_1]['text'].item())
+                writer_2_vector = word2vec.get_post_vector(word2vec_our_model, word2vec_wiki_model,
+                                                           users_df.loc[users_df['writer'] == writer_2]['text'].item())
+                csv_writer.writerow([writer_1,
+                                     writer_2,
+                                     utils.calculate_distance(writer_1_vector, writer_2_vector)])
 
 
 def create_graph(csv_file):
