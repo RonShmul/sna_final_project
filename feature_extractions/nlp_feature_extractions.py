@@ -7,6 +7,7 @@ import utils
 from Embedding import word2vec as w2v
 import os.path
 from feature_extractions import helpers
+import statistics
 
 SOURCE = os.path.abspath(os.path.join(__file__, '../../'))
 
@@ -213,6 +214,10 @@ def extract_distance_from_avg_vector(df):
                                  pos_avg_vec, distance_type)
     )
     return df_offensive_distance
+
+
+def extract_number_of_posts(df):
+    return statistics.posts_per_user(df)
 
 
 def extract_features(df, features):

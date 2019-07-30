@@ -3,7 +3,7 @@ import utils
 import preprocessing
 import evaluation
 import visualization
-from feature_extractions import network_feature_extraction, nlp_feature_extractions, user_feature_extraction
+from feature_extractions import network_feature_extraction, nlp_feature_extractions
 import graph
 import numpy as np
 import XGBoost
@@ -44,7 +44,7 @@ print("extract nlp features...")
 feature_list = ['post_length', 'tfidf', 'topics', 'screamer', 'words', 'off_dis', 'not_off_dis']
 X_nlp = nlp_feature_extractions.extract_features(users_data, feature_list)
 y_nlp = (users_data['cb_level'] == 3).astype(int)
-X_users = user_feature_extraction.extract_number_of_posts(posts_data)
+X_users = nlp_feature_extractions.extract_number_of_posts(posts_data)
 X_nlp = X_nlp.merge(X_users, on='writer')
 
 # extract network features #
