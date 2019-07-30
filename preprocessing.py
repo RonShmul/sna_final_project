@@ -26,7 +26,7 @@ def preprocess_graph(graph, threshold):
     :param threshold:
     :return:
     """
-    remove = [edge for edge in graph.edges().items() if edge[1]['Weight'] < threshold]
+    remove = [edge for edge in graph.edges().items() if edge[1]['Weight'] > threshold]
     remove_list = [remove[i][0] for i in range(len(remove))]
     graph.remove_edges_from(remove_list)
     isolated = list(nx.isolates(graph))  # isolate and remove the unconnected nodes

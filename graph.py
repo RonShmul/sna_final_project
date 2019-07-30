@@ -123,13 +123,11 @@ def show_communities_graph(graph, partition):
     """
     d = nx.degree_centrality(graph)
     pos = nx.spring_layout(graph)
-    colors = []
-    [colors.append('%06X' % randint(0, 0xFFFFFF)) for i in range(271)]
-    colors = ['#c20078', '#8e82fe']
+    colors = ['#c20078', '#8e82fe', '#feb308', '#02c14d']
     for i in range(len(partition)):
         sub = graph.subgraph(partition[i])
-        deg_size = [(d[node] * 100) for node in sub.node]
-        nx.draw_networkx_nodes(sub, pos, node_size=deg_size, node_color=colors[i%2])
+        deg_size = [(d[node] * 1000) for node in sub.node]
+        nx.draw_networkx_nodes(sub, pos, node_size=deg_size, node_color=colors[i%4])
         nx.draw_networkx_edges(sub, pos, alpha=0.3)
         nx.draw_networkx_labels(sub, pos, font_size=7, font_color='black')
     plt.show()
@@ -172,3 +170,4 @@ def check_power_law(graph):
     plt.xlabel('Degree')
     plt.ylabel('Number of Subjects')
     plt.savefig('network_degree.png')
+    plt.show()

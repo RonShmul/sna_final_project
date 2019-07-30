@@ -114,7 +114,7 @@ def calculate_distance(a, b, distance_type='euclidean'):
     return None
 
 
-def read_to_df(path='data.csv'):
+def read_to_df(path='fixedData.csv'):
     """
     reads the csv data file to a data frame and gets only the tagged post
     :return df:
